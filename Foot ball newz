@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>فوتبال نیوز ⚽</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#050b16;
+color:#fff;
+font-family:Tahoma,Arial,sans-serif;
+}
+
+header{
+background:linear-gradient(135deg,#061a35,#006cff);
+padding:30px 15px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+font-size:36px;
+}
+
+header p{
+color:#dbeaff;
+}
+
+nav{
+background:#071323;
+padding:12px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:10;
+}
+
+nav button{
+background:#102c4d;
+color:white;
+border:1px solid #1683ff;
+border-radius:20px;
+padding:10px 16px;
+margin:4px;
+cursor:pointer;
+}
+
+nav button:hover{
+background:#087cff;
+}
+
+.container{
+width:94%;
+max-width:1100px;
+margin:25px auto;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.hero{
+background:#0b2340;
+border:1px solid #1683ff;
+border-radius:20px;
+padding:35px 20px;
+text-align:center;
+}
+
+.hero h2{
+font-size:30px;
+}
+
+.title{
+border-right:5px solid #087cff;
+padding-right:12px;
+margin:35px 0 20px;
+}
+
+.card{
+background:#0a1729;
+border:1px solid #16466f;
+border-radius:17px;
+padding:20px;
+margin:15px 0;
+}
+
+.card h3{
+color:#58aaff;
+}
+
+.card p{
+line-height:2;
+color:#d6e2ef;
+}
+
+input,
+textarea{
+width:100%;
+background:#020914;
+color:white;
+border:1px solid #20598e;
+border-radius:9px;
+padding:13px;
+margin:7px 0 14px;
+font-size:15px;
+}
+
+textarea{
+height:120px;
+resize:vertical;
+}
+
+.btn{
+background:#087cff;
+color:white;
+border:0;
+border-radius:10px;
+padding:12px 20px;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#005ed1;
+}
+
+.match{
+display:flex;
+justify-content:space-around;
+align-items:center;
+text-align:center;
+background:#0a1729;
+border:1px solid #16466f;
+border-radius:17px;
+padding:20px;
+margin:12px 0;
+}
+
+.team{
+width:35%;
+}
+
+.vs{
+color:#58aaff;
+font-weight:bold;
+}
+
+.star{
+text-align:center;
+}
+
+.star-icon{
+font-size:90px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.stat{
+background:#061221;
+padding:13px;
+border-radius:10px;
+}
+
+.stat b{
+color:#58aaff;
+}
+
+.user-news{
+border-right:4px solid #087cff;
+}
+
+.success{
+background:#073b23;
+border:1px solid #159957;
+padding:12px;
+border-radius:10px;
+display:none;
+margin-bottom:15px;
+}
+
+footer{
+background:#030913;
+color:#8295ad;
+text-align:center;
+padding:30px;
+margin-top:50px;
+}
+
+@media(max-width:600px){
+
+header h1{
+font-size:28px;
+}
+
+.match{
+padding:15px 3px;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>
+⚽ فوتبال نیوز
+</h1>
+
+<p>
+اخبار فوتبال از طرف کاربران
+</p>
+
+</header>
+
+
+<nav>
+
+<button onclick="showPage('home')">
+🏠 خانه
+</button>
+
+<button onclick="showPage('news')">
+📰 اخبار
+</button>
+
+<button onclick="showPage('matches')">
+⚽ بازی‌ها
+</button>
+
+<button onclick="showPage('star')">
+⭐ ستاره فوتبال
+</button>
+
+<button onclick="showPage('send')">
+📤 ارسال خبر
+</button>
+
+</nav>
+
+
+<div class="container">
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h2>
+به فوتبال نیوز خوش آمدید ⚽
+</h2>
+
+<p>
+اینجا کاربران هم می‌توانند اخبار فوتبالی خودشان را ارسال کنند.
+</p>
+
+</div>
+
+<h2 class="title">
+🔥 آخرین خبرها
+</h2>
+
+<div id="homeNews"></div>
+
+</section>
+
+
+<!-- NEWS -->
+
+<section id="news" class="page">
+
+<h2 class="title">
+📰 اخبار کاربران
+</h2>
+
+<div id="newsList"></div>
+
+</section>
+
+
+<!-- MATCHES -->
+
+<section id="matches" class="page">
+
+<h2 class="title">
+📅 بازی‌های امروز
+</h2>
+
+<div id="matchesList"></div>
+
+</section>
+
+
+<!-- STAR -->
+
+<section id="star" class="page">
+
+<h2 class="title">
+⭐ ستاره فوتبال
+</h2>
+
+<div class="card star">
+
+<div class="star-icon">
+⚽
+</div>
+
+<h2>
+کریستیانو رونالدو 🇵🇹
+</h2>
+
+<p>
+یکی از بزرگ‌ترین ستاره‌های تاریخ فوتبال.
+</p>
+
+<div class="stats">
+
+<div class="stat">
+⚡ سرعت
+<br>
+<b>100</b>
+</div>
+
+<div class="stat">
+🎯 شوت
+<br>
+<b>100</b>
+</div>
+
+<div class="stat">
+🔥 دریبل
+<br>
+<b>100</b>
+</div>
+
+<div class="stat">
+🎯 پاس
+<br>
+<b>100</b>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SEND NEWS -->
+
+<section id="send" class="page">
+
+<h2 class="title">
+📤 ارسال خبر فوتبالی
+</h2>
+
+<div class="card">
+
+<div id="success" class="success">
+✅ خبر شما با موفقیت در سایت ثبت شد!
+</div>
+
+<label>
+نام شما
+</label>
+
+<input
+id="userName"
+type="text"
+placeholder="مثلاً امیر">
+
+<label>
+عنوان خبر
+</label>
+
+<input
+id="userTitle"
+type="text"
+placeholder="عنوان خبر را بنویسید">
+
+<label>
+متن خبر
+</label>
+
+<textarea
+id="userText"
+placeholder="خبر فوتبالی خود را بنویسید..."></textarea>
+
+<button
+class="btn"
+onclick="sendNews()">
+
+📤 ارسال خبر
+
+</button>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<footer>
+
+⚽ فوتبال نیوز
+
+<br><br>
+
+هر کاربر می‌تواند خبر فوتبالی ارسال کند.
+
+</footer>
+
+
+<script>
+
+
+/* =========================
+   اخبار اولیه
+========================= */
+
+var news=[
+
+{
+name:"فوتبال نیوز",
+title:"🔥 به فوتبال نیوز خوش آمدید",
+text:"از این قسمت می‌توانید اخبار فوتبالی کاربران را مشاهده کنید."
+},
+
+{
+name:"فوتبال نیوز",
+title:"⭐ ستاره فوتبال",
+text:"کریستیانو رونالدو یکی از محبوب‌ترین بازیکنان تاریخ فوتبال است."
+}
+
+];
+
+
+/* =========================
+   بازی‌ها
+========================= */
+
+var matches=[
+
+{
+team1:"رئال مادرید",
+team2:"بارسلونا",
+time:"21:30"
+},
+
+{
+team1:"لیورپول",
+team2:"منچستر سیتی",
+time:"23:00"
+}
+
+];
+
+
+/* =========================
+   تغییر صفحه
+========================= */
+
+function showPage(page){
+
+var pages=document.getElementsByClassName("page");
+
+for(var i=0;i<pages.length;i++){
+
+pages[i].classList.remove("active");
+
+}
+
+document.getElementById(page).classList.add("active");
+
+window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   نمایش اخبار
+========================= */
+
+function renderNews(){
+
+var home=document.getElementById("homeNews");
+
+var list=document.getElementById("newsList");
+
+home.innerHTML="";
+
+list.innerHTML="";
+
+
+for(var i=0;i<news.length;i++){
+
+var item=news[i];
+
+var html=
+
+'<div class="card user-news">'+
+
+'<h3>'+
+item.title+
+'</h3>'+
+
+'<p>'+
+item.text+
+'</p>'+
+
+'<small>👤 ارسال توسط: '+
+item.name+
+'</small>'+
+
+'</div>';
+
+
+list.innerHTML+=html;
+
+
+if(i<5){
+
+home.innerHTML+=
